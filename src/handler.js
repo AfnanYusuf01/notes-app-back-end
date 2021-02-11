@@ -17,7 +17,7 @@ const addNoteHandler = (request, h) => {
   const isSuccess = notes.filter((note) => note.id === id).length > 0;
 
   if (isSuccess) {
-    return { error: false, message: 'Catatan berhasil ditambahkan' };
+    return { error: false, message: 'Catatan berhasil ditambahkan', noteId: id };
   }
 
   const response = h.response({ error: true, message: 'Catatan gagal ditambahkan' });
