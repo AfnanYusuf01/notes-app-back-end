@@ -62,7 +62,7 @@ const editNoteByIdHandler = (request, h) => {
   }
 
   const response = h.response({ error: true, message: 'Gagal memperbarui catatan. Id tidak ditemukan' });
-  response.status(404);
+  response.code(404);
   return response;
 };
 
@@ -77,7 +77,7 @@ const deleteNoteByIdHandler = (request, h) => {
   }
 
   const response = h.response({ error: true, message: 'Catatan gagal dihapus. Id tidak ditemukan' });
-  response.status(404);
+  response.code(404);
   return response;
 };
 
