@@ -86,7 +86,7 @@ const editNoteByIdHandler = (request, h) => {
       status: 'success',
       message: 'Catatan berhasil diperbarui',
     });
-    response.code(204);
+    response.code(200);
     return response;
   }
 
@@ -109,7 +109,7 @@ const deleteNoteByIdHandler = (request, h) => {
       status: 'success',
       message: 'catatan berhasil dihapus',
     });
-    response.code(204);
+    response.code(200);
     return response;
   }
 
