@@ -17,15 +17,31 @@ const addNoteHandler = (request, h) => {
   const isSuccess = notes.filter((note) => note.id === id).length > 0;
 
   if (isSuccess) {
-    return { error: false, message: 'Catatan berhasil ditambahkan', noteId: id };
+    const response = h.response({
+      status: 'success',
+      message: 'Catatan berhasil ditambahkan',
+      data: {
+        noteId: id,
+      },
+    });
+    response.code(201);
+    return response;
   }
 
-  const response = h.response({ error: true, message: 'Catatan gagal ditambahkan' });
-  response.code(400);
+  const response = h.response({
+    status: 'fail',
+    message: 'Catatan gagal ditambahkan',
+  });
+  response.code(500);
   return response;
 };
 
-const getAllNotesHandler = () => notes;
+const getAllNotesHandler = () => ({
+  status: 'success',
+  data: {
+    notes,
+  },
+});
 
 const getNoteByIdHandler = (request, h) => {
   const { id } = request.params;
@@ -33,10 +49,18 @@ const getNoteByIdHandler = (request, h) => {
   const note = notes.filter((n) => n.id === id)[0];
 
   if (note !== undefined) {
-    return note;
+    return {
+      status: 'success',
+      data: {
+        note,
+      },
+    };
   }
 
-  const response = h.response({ error: true, message: 'Catatan tidak ditemukan' });
+  const response = h.response({
+    status: 'fail',
+    message: 'Catatan tidak ditemukan',
+  });
   response.code(404);
   return response;
 };
@@ -58,10 +82,18 @@ const editNoteByIdHandler = (request, h) => {
       updatedAt,
     };
 
-    return { error: false, message: 'Catatan berhasil diperbarui' };
+    const response = h.response({
+      status: 'success',
+      message: 'Catatan berhasil diperbarui',
+    });
+    response.code(204);
+    return response;
   }
 
-  const response = h.response({ error: true, message: 'Gagal memperbarui catatan. Id tidak ditemukan' });
+  const response = h.response({
+    status: 'fail',
+    message: 'Gagal memperbarui catatan. Id tidak ditemukan',
+  });
   response.code(404);
   return response;
 };
@@ -73,10 +105,18 @@ const deleteNoteByIdHandler = (request, h) => {
 
   if (index !== -1) {
     notes.splice(index, 1);
-    return { error: false, message: 'Catatan berhasil dihapus' };
+    const response = h.response({
+      status: 'success',
+      message: 'catatan berhasil dihapus',
+    });
+    response.code(204);
+    return response;
   }
 
-  const response = h.response({ error: true, message: 'Catatan gagal dihapus. Id tidak ditemukan' });
+  const response = h.response({
+    status: 'fail',
+    message: 'Catatan gagal dihapus. Id tidak ditemukan',
+  });
   response.code(404);
   return response;
 };
