@@ -67,7 +67,9 @@ class NotesHandler {
     try {
       const { id } = request.params;
       const { id: owner } = request.auth.credentials;
-      const note = await this._service.getNoteById(id, owner);
+
+      await this._service.verifyNoteOwner(id, owner);
+      const note = await this._service.getNoteById(id);
       return {
         status: 'success',
         data: {
@@ -101,8 +103,8 @@ class NotesHandler {
       const { id } = request.params;
       const { id: owner } = request.auth.credentials;
 
-      await this._service.editNoteById(id, request.payload, owner);
-
+      await this._service.verifyNoteOwner(id, owner);
+      await this._service.editNoteById(id, request.payload);
       return {
         status: 'success',
         message: 'Catatan berhasil diperbarui',
@@ -133,7 +135,8 @@ class NotesHandler {
       const { id } = request.params;
       const { id: owner } = request.auth.credentials;
 
-      await this._service.deleteNoteById(id, owner);
+      await this._service.verifyNoteOwner(id, owner);
+      await this._service.deleteNoteById(id);
 
       return {
         status: 'success',
